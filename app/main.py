@@ -5,13 +5,14 @@ from fastapi import (
     Depends,
     HTTPException,
 )
+from fastapi.middleware.cors import CORSMiddleware
 from typing import (
     List,
     Optional,
 )
 from dotenv import load_dotenv
-from fastapi_sqlalchemy import DBSessionMiddleware
 from sqlalchemy.orm import Session
+from fastapi_sqlalchemy import DBSessionMiddleware
 
 # custom imports
 from .database import (
@@ -39,10 +40,16 @@ app = FastAPI(
     }
 )
 
+# App accessible by other origins (Eg: Frontend domain)
+origins = [
+    "http://localhost:8000",
+]
+
 # Add session middleware
 app.add_middleware(
     DBSessionMiddleware,
-    db_url=SQLALCHEMY_DATABASE_URL
+    db_url=SQLALCHEMY_DATABASE_URL,
+    origins=origins
 )
 
 # Load env variables
