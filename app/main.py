@@ -47,6 +47,7 @@ origins = [
 
 # Add session middleware
 app.add_middleware(
+    CORSMiddleware,
     DBSessionMiddleware,
     db_url=SQLALCHEMY_DATABASE_URL,
     origins=origins
