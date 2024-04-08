@@ -40,6 +40,9 @@ app = FastAPI(
     }
 )
 
+# Load env variables
+load_dotenv()
+
 # App accessible by other origins (Eg: Frontend domain)
 origins = [
     "http://localhost:8000",
@@ -50,11 +53,8 @@ app.add_middleware(
     CORSMiddleware,
     DBSessionMiddleware,
     db_url=SQLALCHEMY_DATABASE_URL,
-    origins=origins
+    origins=origins,
 )
-
-# Load env variables
-load_dotenv()
 
 # Bind tables with engine
 Base.metadata.create_all(bind=engine)
